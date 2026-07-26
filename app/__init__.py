@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import sqlalchemy
 
 def create_app():
@@ -6,7 +6,7 @@ def create_app():
 
     @app.route("/")
     def homepage():
-        return "Hello World!"
+        return render_template("home.html")
     
     @app.route("/about")
     def about():
