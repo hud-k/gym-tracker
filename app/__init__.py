@@ -6,9 +6,11 @@ def create_app():
     def homepage():
         return render_template("home.html")
 
-    @app.route("/register")
+    @app.route("/register", methods=["GET", "POST"])
     def register():
-        return render_template("register.html")
+        if request.method == "POST":
+            return render_template("register.html", message="Successfully created account!")
+        return render_template("register.html", message="")
     
     @app.route("/login", methods=["GET", "POST"])
     def login():

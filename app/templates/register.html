@@ -3,7 +3,19 @@
 {% block content %}
 <form action="{{ url_for('register') }}" method="post">
     <div>
-        <label></label>
+        <label for="username">Create username:</label>
+        <input type="text" id="username" name="username" required>
     </div>
+
+    <br>
+
+    <div>
+        <label for="password">Create password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+
+    <button type="submit">Submit</button>
+    <button type="reset">Reset</button>
 </form>
-{% endblock content %}
+<p>{{message}}</p>
+{% endblock %}
