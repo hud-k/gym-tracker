@@ -1,6 +1,25 @@
 from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
 def create_app():
     app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/gymtracker.db'
+    db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
+
+    class Users(db.Model):
+        _id = db.Column("id", db.Integer, primary_key=True)
+        username = db.Column(db.String(20))
+        password = db.Column(db.String(20))
+
+        def __init__(self, username, password):
+            self.username = username
+            self.password = password
+            
 
     @app.route("/")
     def homepage():
