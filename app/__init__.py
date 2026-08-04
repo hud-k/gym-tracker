@@ -8,19 +8,18 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/gymtracker.db'
     db.init_app(app)
 
-    with app.app_context():
-        db.create_all()
-
     class Users(db.Model):
         _id = db.Column("id", db.Integer, primary_key=True)
         username = db.Column(db.String(20))
-        password = db.Column(db.String(20))
+        password = db.Column(db.String(100))
 
         def __init__(self, username, password):
             self.username = username
             self.password = password
             
-
+    with app.app_context():
+            db.create_all()
+            
     @app.route("/")
     def homepage():
         return render_template("home.html")
