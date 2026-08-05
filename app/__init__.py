@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+import werkzeug.security
 
 db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/gymtracker.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/Acer/Desktop/gym-tracker/instance/gymtracker.db'
     db.init_app(app)
 
     class Users(db.Model):
@@ -27,6 +28,15 @@ def create_app():
     @app.route("/register", methods=["GET", "POST"])
     def register():
         if request.method == "POST":
+            username = request.form["username"]
+            password = request.form["password"]
+            hashed_password = werkzeug.security.generate_password_hash(password)
+
+            new_user = Users(username, hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+
+
             return render_template("register.html", message="Successfully created account!")
         return render_template("register.html", message="")
     
