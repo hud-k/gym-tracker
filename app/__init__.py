@@ -11,7 +11,7 @@ def create_app():
 
     class Users(db.Model):
         _id = db.Column("id", db.Integer, primary_key=True)
-        username = db.Column(db.String(20))
+        username = db.Column(db.String(20), unique=True)
         password = db.Column(db.String(100))
 
         def __init__(self, username, password):
@@ -30,20 +30,25 @@ def create_app():
         if request.method == "POST":
             username = request.form["username"]
             password = request.form["password"]
-            hashed_password = werkzeug.security.generate_password_hash(password)
+            existing_user = Users.query.filter_by(username=username).first()
+            if existing_user:
+                return render_template("register.html", message="That username is already taken.")
+            else:
+                hashed_password = werkzeug.security.generate_password_hash(password)
+                new_user = Users(username, hashed_password)
+                db.session.add(new_user)
+                db.session.commit()
 
-            new_user = Users(username, hashed_password)
-            db.session.add(new_user)
-            db.session.commit()
-
-
-            return render_template("register.html", message="Successfully created account!")
+                return render_template("register.html", message="Successfully created account!")
         return render_template("register.html", message="")
     
     @app.route("/login", methods=["GET", "POST"])
     def login():
         if request.method == "POST":
-            return "You submitted information"
+            username = request.form["username"]
+            password = request.form["password"]
+
+            user = Users.query.filter_by(username=username).first()
             
         return render_template("login.html")
     
