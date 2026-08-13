@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 import werkzeug.security
 
 db = SQLAlchemy()
@@ -9,11 +9,12 @@ login_manager = LoginManager()
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/Acer/Desktop/gym-tracker/instance/gymtracker.db'
+    app.config['SECRET_KEY'] = 'testsecretdevkey'
     db.init_app(app)
     login_manager.init_app(app)
 
     class Users(db.Model, UserMixin):
-        _id = db.Column("id", db.Integer, primary_key=True)
+        id = db.Column(db.Integer, primary_key=True)
         username = db.Column(db.String(20), unique=True)
         password = db.Column(db.String(100))
 
@@ -65,11 +66,19 @@ def create_app():
         return render_template("login.html", message="")
     
     @app.route("/log-workout")
+    @login_required
     def log_workout():
         return render_template("log_workout.html")
 
     @app.route("/history")
+    @login_required
     def history():
         return render_template("history.html")
+
+    @app.route("/logout")
+    @login_required
+    def logout():
+        logout_user()
+        return redirect(url_for("login"))
 
     return app
