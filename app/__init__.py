@@ -11,16 +11,8 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/Acer/Desktop/gym-tracker/instance/gymtracker.db'
     app.config['SECRET_KEY'] = 'testsecretdevkey'
     db.init_app(app)
+    from app.models import Users
     login_manager.init_app(app)
-
-    class Users(db.Model, UserMixin):
-        id = db.Column(db.Integer, primary_key=True)
-        username = db.Column(db.String(20), unique=True)
-        password = db.Column(db.String(100))
-
-        def __init__(self, username, password):
-            self.username = username
-            self.password = password
 
     @login_manager.user_loader
     def load_user(user_id):
