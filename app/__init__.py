@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import werkzeug.security
 
 db = SQLAlchemy()
@@ -11,7 +11,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/Acer/Desktop/gym-tracker/instance/gymtracker.db'
     app.config['SECRET_KEY'] = 'testsecretdevkey'
     db.init_app(app)
-    from app.models import Users
+    from app.models import Users, Workout
     login_manager.init_app(app)
 
     @login_manager.user_loader
@@ -57,9 +57,22 @@ def create_app():
             
         return render_template("login.html", message="")
     
-    @app.route("/log-workout")
+    @app.route("/log-workout", methods=["GET", "POST"])
     @login_required
     def log_workout():
+        if request.method == "POST":
+            user_id = current_user.id
+            exercise = request.form["exercise_name"]
+            weight = float(request.form["weight"])
+            sets = int(request.form["sets"])
+            reps = int(request.form["reps"])
+            date = date(request.form["date"])
+
+            new_exercise = Workout(user_id, exercise, weight, sets, reps, date)
+            db.session.add(new_exercise)
+            db.session.commit()
+
+            return render_template("log_workout.html", message=f"{exercise} was logged.")
         return render_template("log_workout.html")
 
     @app.route("/history")
