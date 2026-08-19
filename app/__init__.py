@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import werkzeug.security
+from datetime import datetime
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -66,7 +67,7 @@ def create_app():
             weight = float(request.form["weight"])
             sets = int(request.form["sets"])
             reps = int(request.form["reps"])
-            date = date(request.form["date"])
+            date = datetime.strptime(request.form["date"], "%Y-%m-%d").date()
 
             new_exercise = Workout(user_id, exercise, weight, sets, reps, date)
             db.session.add(new_exercise)
