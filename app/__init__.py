@@ -79,7 +79,8 @@ def create_app():
     @app.route("/history")
     @login_required
     def history():
-        return render_template("history.html")
+        workouts = Workout.query.filter_by(user_id=current_user.id).all()
+        return render_template("history.html", workouts=workouts)
 
     @app.route("/logout")
     @login_required

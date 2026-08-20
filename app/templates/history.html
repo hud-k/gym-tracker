@@ -1,3 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Workout History{% endblock %}
-{% block content %}This is where you'll view exercise history{% endblock %}
+{% block content %}
+{% for workout in workouts %}
+    <p>{{workout.exercise_name}} - {{workout.weight}} - {{workout.sets}}x{{workout.reps}} - {{workout.date}}</p>
+{% endfor %}
+{% endblock %}
