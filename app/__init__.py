@@ -88,4 +88,13 @@ def create_app():
         logout_user()
         return redirect(url_for("login"))
 
+    @app.route("/delete/<int:workout_id>")
+    @login_required
+    def delete_workout(workout_id):
+        workout_to_delete = Workout.query.filter_by(id=workout_id, user_id=current_user.id).first()
+        if workout_to_delete:
+            db.session.delete(workout_to_delete)
+            db.session.commit()
+        return redirect(url_for("history"))
+    
     return app
