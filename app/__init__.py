@@ -96,5 +96,24 @@ def create_app():
             db.session.delete(workout_to_delete)
             db.session.commit()
         return redirect(url_for("history"))
-    
+
+    @app.route("/edit/<int:workout_id>", methods=["GET", "POST"])
+    @login_required
+    def edit_workout(workout_id):
+        workout_to_edit = Workout.query.filter_by(id=workout_id, user_id=current_user.id).first()
+        if workout_to_edit is None:
+            return redirect(url_for("history"))
+        
+        if request.method == "POST":
+            form = request.form
+            workout_to_edit.exercise_name = form["exercise_name"]
+            workout_to_edit.weight = float(form["weight"])
+            workout_to_edit.sets = int(form["sets"])
+            workout_to_edit.reps = int(form["reps"])
+            workout_to_edit.date = datetime.strptime(form["date"], "%Y-%m-%d").date()
+            db.session.commit()
+            return redirect(url_for("history"))
+
+        return render_template("edit_workout.html", workout=workout_to_edit)
+
     return app

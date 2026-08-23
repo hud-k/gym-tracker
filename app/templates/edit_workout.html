@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Edit Workouts{% endblock %}
+{% block content %}
+<form action="{{ url_for('edit_workout', workout_id = workout.id) }}" method="post">
+    <div>
+        <label for="exercise_name">Exercise name:</label>
+        <input type="text" id="exercise_name" name="exercise_name" value="{{ workout.exercise_name }}" required>
+    </div>
+
+    <div>
+        <label for="weight">Weight:</label>
+        <input type="number" id="weight" name="weight" step="0.5" value="{{ workout.weight }}" required>
+    </div>
+
+    <div>
+        <label for="sets">Sets:</label>
+        <input type="number" id="sets" name="sets" value="{{ workout.sets }}" required>
+    </div>
+
+    <div>
+        <label for="reps">Reps:</label>
+        <input type="number" id="reps" name="reps" value="{{ workout.reps }}" required>
+    </div>
+
+    <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="{{ workout.date }}" required>
+    </div>
+
+    <button type="submit">Submit</button>
+</form>
+<p>{{message}}</p>
+{% endblock %}

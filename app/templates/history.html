@@ -4,5 +4,6 @@
 {% for workout in workouts %}
     <p>{{workout.exercise_name}} - {{workout.weight}} - {{workout.sets}}x{{workout.reps}} - {{workout.date}}</p>
     <a href="{{ url_for('delete_workout', workout_id=workout.id) }}">Delete</a>
+    <a href="{{ url_for('edit_workout', workout_id=workout.id) }}">Edit</a>
 {% endfor %}
 {% endblock %}
