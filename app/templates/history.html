@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Workout History{% endblock %}
 {% block content %}
+<h3>View Progress</h3>
+{% for exercise in unique_exercises %}
+    <a href="{{ url_for('progress', exercise_name=exercise) }}">{{ exercise }}</a>
+{% endfor %}
+<br>
+<h3>Full History</h3>
 {% for workout in workouts %}
     <p>{{workout.exercise_name}} - {{workout.weight}} - {{workout.sets}}x{{workout.reps}} - {{workout.date}}</p>
     <a href="{{ url_for('delete_workout', workout_id=workout.id) }}">Delete</a>

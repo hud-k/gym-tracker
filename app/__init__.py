@@ -80,7 +80,9 @@ def create_app():
     @login_required
     def history():
         workouts = Workout.query.filter_by(user_id=current_user.id).all()
-        return render_template("history.html", workouts=workouts)
+        unique_exercises = {workout.exercise_name for workout in workouts}
+
+        return render_template("history.html", workouts=workouts, unique_exercises=unique_exercises)
 
     @app.route("/logout")
     @login_required
@@ -116,4 +118,7 @@ def create_app():
 
         return render_template("edit_workout.html", workout=workout_to_edit)
 
+    @app.route("/progress/<exercise_name>")
+    def progress(exercise_name):
+        entries = Workout.query.filter_by(exercise_name=exercise_name, user_id=current_user.id).all()
     return app
