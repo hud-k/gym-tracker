@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Progress{% endblock %}
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="myChart"></canvas>
+<script>
+    const ctx = document.getElementById("myChart");
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["Jan", "Feb", "Mar"],
+            datasets: [{
+                label: "Weight",
+                data: [60, 62, 65]
+            }]
+        }
+    });
+</script>
+
+{% endblock %}

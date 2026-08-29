@@ -119,6 +119,10 @@ def create_app():
         return render_template("edit_workout.html", workout=workout_to_edit)
 
     @app.route("/progress/<exercise_name>")
+    @login_required
     def progress(exercise_name):
         entries = Workout.query.filter_by(exercise_name=exercise_name, user_id=current_user.id).all()
+
+        return render_template("progress.html")
+
     return app
