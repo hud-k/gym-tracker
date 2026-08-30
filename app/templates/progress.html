@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Progress{% endblock %}
+{% block title %}{{exercise_name}} Progress{% endblock %}
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <canvas id="myChart"></canvas>
@@ -8,10 +8,10 @@
     new Chart(ctx, {
         type: "line",
         data: {
-            labels: ["Jan", "Feb", "Mar"],
+            labels: {{ dates | tojson }},
             datasets: [{
-                label: "Weight",
-                data: [60, 62, 65]
+                label: "{{ exercise_name }}",
+                data: {{ weights | tojson }},
             }]
         }
     });

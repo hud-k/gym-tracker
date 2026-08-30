@@ -122,7 +122,8 @@ def create_app():
     @login_required
     def progress(exercise_name):
         entries = Workout.query.filter_by(exercise_name=exercise_name, user_id=current_user.id).all()
-
-        return render_template("progress.html")
+        dates = [entry.date.strftime("%d %b %Y") for entry in entries]
+        weights = [entry.weight for entry in entries]
+        return render_template("progress.html", dates=dates, weights=weights, exercise_name=exercise_name)
 
     return app
