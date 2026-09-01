@@ -24,6 +24,9 @@ def create_app():
             
     @app.route("/")
     def homepage():
+        if current_user.is_authenticated:
+            recent_workouts = Workout.query.filter_by(user_id=current_user.id).order_by(Workout.date.desc()).limit(5).all()
+            return render_template("home.html", workouts=recent_workouts)
         return render_template("home.html")
 
     @app.route("/register", methods=["GET", "POST"])
