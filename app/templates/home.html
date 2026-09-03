@@ -2,6 +2,8 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 {% if current_user.is_authenticated %}
+    <p>Total exercises logged: {{ total }} </p>
+    <p>Last logged: {{ last_logged }} </p>
     <p>Recently logged exercises: </p>
     <ul>
     {% for exercise in workouts %}

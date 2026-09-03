@@ -26,7 +26,14 @@ def create_app():
     def homepage():
         if current_user.is_authenticated:
             recent_workouts = Workout.query.filter_by(user_id=current_user.id).order_by(Workout.date.desc()).limit(5).all()
-            return render_template("home.html", workouts=recent_workouts)
+            total_workouts = Workout.query.filter_by(user_id=current_user.id).count()
+
+            if total_workouts > 0:
+                last_logged_date = recent_workouts[0].date.strftime("%d %b %Y")
+            else:
+                last_logged_date = "No workouts logged"
+
+            return render_template("home.html", workouts=recent_workouts, total = total_workouts, last_logged=last_logged_date)
         return render_template("home.html")
 
     @app.route("/register", methods=["GET", "POST"])
