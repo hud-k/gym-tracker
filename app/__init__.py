@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import werkzeug.security
 from datetime import datetime
+from sklearn.linear_model import LinearRegression
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -134,6 +135,18 @@ def create_app():
         entries = Workout.query.filter_by(exercise_name=exercise_name, user_id=current_user.id).all()
         dates = [entry.date.strftime("%d %b %Y") for entry in entries]
         weights = [entry.weight for entry in entries]
-        return render_template("progress.html", dates=dates, weights=weights, exercise_name=exercise_name)
+        if len(entries) >=3:
+            first_date = entries[0].date
+            days = [[(entry.date - first_date).days] for entry in entries]
+            model = LinearRegression()
+            model.fit(days, weights)
+
+            last_day = days[-1][0]
+            next_day = last_day + 7
+            predicted_weight = model.predict([[next_day]])[0]
+        else:
+            predicted_weight = None
+
+        return render_template("progress.html", dates=dates, weights=weights, exercise_name=exercise_name, predicted_weight=predicted_weight)
 
     return app

@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block title %}{{exercise_name}} Progress{% endblock %}
 {% block content %}
+
+{% if predicted_weight %}
+    <p>Predicted next session: {{ predicted_weight | round(1) }} kg</p>
+{% else %}
+    <p>Log a few more entries to see a prediction.</p>
+{% endif %}
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<canvas id="myChart"></canvas>
+<canvas id="myChart" style="max-height: 600px;"></canvas>
 <script>
     const ctx = document.getElementById("myChart");
     new Chart(ctx, {
@@ -16,5 +23,6 @@
         }
     });
 </script>
+
 
 {% endblock %}
