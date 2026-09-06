@@ -4,14 +4,19 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import werkzeug.security
 from datetime import datetime
 from sklearn.linear_model import LinearRegression
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+print("Loaded DB URI:", os.environ.get('DATABASE_URL'))
 db = SQLAlchemy()
 login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/Acer/Desktop/gym-tracker/instance/gymtracker.db'
-    app.config['SECRET_KEY'] = 'testsecretdevkey'
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "..", "instance", "gymtracker.db")}'
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
     db.init_app(app)
     from app.models import Users, Workout
     login_manager.init_app(app)

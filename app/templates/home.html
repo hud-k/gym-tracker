@@ -7,7 +7,7 @@
     <p>Recently logged exercises: </p>
     <ul>
     {% for exercise in workouts %}
-        <li> {{ exercise.exercise_name }} </li>
+        <li> {{ exercise.exercise_name.capitalize() }} - {{ exercise.weight }} </li>
     {% endfor %}
     </ul>
 {% else %}
