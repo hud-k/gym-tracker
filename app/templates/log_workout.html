@@ -1,33 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Log Workouts{% endblock %}
 {% block content %}
-<form action="{{ url_for('log_workout') }}" method="post">
-    <div>
-        <label for="exercise_name">Exercise name:</label>
-        <input type="text" id="exercise_name" name="exercise_name" required>
-    </div>
 
-    <div>
-        <label for="weight">Weight:</label>
-        <input type="number" id="weight" name="weight" step="0.5" required>
-    </div>
 
-    <div>
-        <label for="sets">Sets:</label>
-        <input type="number" id="sets" name="sets" required>
-    </div>
+<div class="row">
+    <div class="col-md-6 offset-md-3 mt-3">
+        <h2>Log a Workout</h2>
+        <form action="{{ url_for('log_workout') }}" method="post">
+            <div class="mt-4 mb-3 form-floating">
+                <label for="exercise_name" class="form-label">Exercise name:</label>
+                <input type="text" id="exercise_name" name="exercise_name" class="form-control" required>
+            </div>
 
-    <div>
-        <label for="reps">Reps:</label>
-        <input type="number" id="reps" name="reps" required>
-    </div>
+            <div class="mb-3">
+                <label for="weight" class="form-label">Weight:</label>
+                <input type="number" id="weight" name="weight" step="0.5" class="form-control" required>
+            </div>
 
-    <div>
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required>
-    </div>
+            <div class="mb-3">
+                <label for="sets" class="form-label">Sets:</label>
+                <input type="number" id="sets" name="sets" class="form-control" required>
+            </div>
 
-    <button type="submit">Submit</button>
-</form>
+            <div class="mb-3">
+                <label for="reps" class="form-label">Reps:</label>
+                <input type="number" id="reps" name="reps" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="date" class="form-label">Date:</label>
+                <input type="date" id="date" name="date" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+        </form>
+    </div>
+</div>
 <p>{{message}}</p>
 {% endblock %}
