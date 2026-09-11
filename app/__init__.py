@@ -68,7 +68,7 @@ def create_app():
 
             if user and werkzeug.security.check_password_hash(user.password, password):
                 login_user(user)
-                return render_template("login.html", message="Successfully logged in.")
+                return redirect(url_for("homepage"))
             else:
                 return render_template("login.html", message="Incorrect username or password.")
             
