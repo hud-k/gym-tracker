@@ -99,7 +99,7 @@ def create_app():
     @app.route("/history")
     @login_required
     def history():
-        workouts = Workout.query.filter_by(user_id=current_user.id).all()
+        workouts = Workout.query.filter_by(user_id=current_user.id).order_by(Workout.date.desc()).all()
         unique_exercises = {workout.exercise_name for workout in workouts}
 
         return render_template("history.html", workouts=workouts, unique_exercises=unique_exercises)
