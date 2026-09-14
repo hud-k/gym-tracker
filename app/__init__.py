@@ -80,10 +80,14 @@ def create_app():
         if request.method == "POST":
             user_id = current_user.id
             exercise = request.form["exercise_name"]
-            weight = float(request.form["weight"])
-            sets = int(request.form["sets"])
-            reps = int(request.form["reps"])
-            date = datetime.strptime(request.form["date"], "%Y-%m-%d").date()
+
+            try:
+                weight = float(request.form["weight"])
+                sets = int(request.form["sets"])
+                reps = int(request.form["reps"])
+                date = datetime.strptime(request.form["date"], "%Y-%m-%d").date()
+            except:
+                return render_template("log_workout.html", message="Please enter valid workout details.")
 
             new_exercise = Workout(user_id, exercise, weight, sets, reps, date)
             db.session.add(new_exercise)
