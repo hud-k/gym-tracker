@@ -5,6 +5,8 @@
 <div class="list-group list-group-flush">
     {% for exercise in unique_exercises %}
         <a href="{{ url_for('progress', exercise_name=exercise) }}" class="list-group-item list-group-item-action">{{ exercise.capitalize() }}</a>
+    {% else %}
+        <p class="text-muted">No exercises tracked yet.</p>
     {% endfor %}
 </div>
 <br>
@@ -17,5 +19,7 @@
             <a href="{{ url_for('delete_workout', workout_id=workout.id) }}" class="btn btn-sm btn-outline-danger">Delete</a>
         </div>
     </div>
+{% else %}
+    <li class="list-group-item text-muted">No workout history yet.</li>
 {% endfor %}
 {% endblock %}

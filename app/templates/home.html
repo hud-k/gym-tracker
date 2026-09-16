@@ -23,6 +23,8 @@
     <ul class="list-group list-group-flush">
     {% for exercise in workouts %}
         <li class="list-group-item"> {{ exercise.exercise_name.capitalize() }} - {{ exercise.weight }} kg </li>
+    {% else %}
+        <li class="list-group-item text-muted">No workouts logged yet - head to Log Workout to get started.</li>
     {% endfor %}
     </ul>
 </div>
