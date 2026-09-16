@@ -11,16 +11,16 @@ Full-stack workout tracking web app built with Flask. Users can register an acco
 
 ## Screenshots
  
-**Homepage Dashboard**
+### Homepage Dashboard
 ![Homepage Dashboard](assets/Homepage.png)
  
-**Log a Workout**
+### Log a Workout
 ![Log a Workout](assets/Log%20Workout.png)
  
-**Workout History**
+### Workout History
 ![Workout History](assets/History.png)
  
-**Exercise Progress**
+### Exercise Progress
 ![Exercise Progress](assets/Progress.png)
  
  
